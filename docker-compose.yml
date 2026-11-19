@@ -22,5 +22,26 @@ services:
       timeout: 3s
       retries: 5
 
+  frontend:
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile
+    image: speedboat-frontend:dev
+    container_name: speedboat-frontend
+    ports:
+      - "5173:5173"
+    environment:
+      # Use Compose DNS inside the container. The repository-level
+      # PARASAIL_BASE_URL points to localhost for host-side npm development.
+      PARASAIL_PROXY_TARGET: ${PARASAIL_PROXY_TARGET:-http://mock:3001}
+      PARASAIL_API_KEY: ${PARASAIL_API_KEY:-psk-mock-mockkey}
+      # Set this to the generated Railway hostname (without https://) when
+      # using Vite's preview server outside localhost.
+      __VITE_ADDITIONAL_SERVER_ALLOWED_HOSTS: ${__VITE_ADDITIONAL_SERVER_ALLOWED_HOSTS:-}
+    depends_on:
+      mock:
+        condition: service_healthy
+    restart: unless-stopped
+
 volumes:
   mock-data:
