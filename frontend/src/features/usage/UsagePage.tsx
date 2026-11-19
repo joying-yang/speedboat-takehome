@@ -206,8 +206,8 @@ export function UsagePage() {
             value={range}
             onChange={(event) => setParam("range", event.target.value)}
           >
-            <option value="7d">Last 7 seeded days</option>
-            <option value="24h">Last seeded 24 hours</option>
+            <option value="7d">Last 7 days</option>
+            <option value="24h">Last 24 hours</option>
           </Select>
         </div>
       </div>
