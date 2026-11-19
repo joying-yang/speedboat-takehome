@@ -1,0 +1,9 @@
+.notice,
+.messages {
+  display: grid;
+  gap: var(--space-1);
+}
+
+.messages {
+  color: var(--text-secondary);
+}

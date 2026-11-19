@@ -1,0 +1,131 @@
+.surface {
+  min-width: 0;
+  overflow: hidden;
+  border: 1px solid var(--border-default);
+  border-radius: var(--radius-card);
+  background: var(--bg-surface);
+}
+
+.scroller {
+  max-width: 100%;
+  overflow-x: auto;
+}
+
+.table {
+  width: 100%;
+  border-collapse: collapse;
+  color: var(--text-primary);
+  text-align: left;
+  font-variant-numeric: tabular-nums;
+}
+
+.headerCell,
+.cell,
+.rowHeader {
+  padding: var(--space-4);
+  border-bottom: 1px solid var(--border-default);
+  vertical-align: middle;
+}
+
+.headerCell {
+  color: var(--text-secondary);
+  font-size: var(--type-body-sm-size);
+  font-weight: 600;
+  line-height: var(--type-body-sm-line);
+  letter-spacing: 0.03em;
+  text-transform: uppercase;
+}
+
+.sortButton {
+  width: 100%;
+  padding: 0;
+  border: 0;
+  color: inherit;
+  background: transparent;
+  font: inherit;
+  letter-spacing: inherit;
+  text-transform: inherit;
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-1);
+  cursor: pointer;
+}
+
+.sortButtonEnd {
+  justify-content: flex-end;
+}
+
+.sortButton:focus-visible {
+  outline: var(--focus-ring-width) solid var(--accent-primary);
+  outline-offset: var(--focus-ring-offset);
+}
+
+.sortButton svg {
+  color: var(--text-tertiary);
+}
+
+.activeSort {
+  color: var(--text-primary);
+}
+
+.activeSort svg {
+  color: var(--accent-primary);
+}
+
+.rowHeader {
+  color: inherit;
+  font-size: var(--type-body-md-size);
+  font-weight: 600;
+  line-height: var(--type-body-md-line);
+  text-align: left;
+}
+
+.table tbody tr:last-child > .cell,
+.table tbody tr:last-child > .rowHeader {
+  border-bottom: 0;
+}
+
+.alignEnd {
+  text-align: right;
+  white-space: nowrap;
+}
+
+.mutedRow {
+  color: var(--text-secondary);
+  background: var(--bg-subtle);
+}
+
+.pagination {
+  padding: var(--space-3) var(--space-4);
+  border-top: 1px solid var(--border-default);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-3);
+}
+
+.paginationSummary,
+.pageStatus {
+  color: var(--text-secondary);
+  font-size: var(--type-body-sm-size);
+  font-weight: var(--type-body-sm-weight);
+  line-height: var(--type-body-sm-line);
+  white-space: nowrap;
+}
+
+.paginationControls {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+}
+
+@media (max-width: 480px) {
+  .pagination {
+    align-items: stretch;
+    flex-direction: column;
+  }
+
+  .paginationControls {
+    justify-content: space-between;
+  }
+}

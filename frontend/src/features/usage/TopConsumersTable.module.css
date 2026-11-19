@@ -1,0 +1,17 @@
+.heading p {
+  margin-top: var(--space-1);
+  color: var(--text-secondary);
+}
+
+.model {
+  color: var(--text-secondary);
+  font-family: var(--font-mono);
+  font-size: var(--type-mono-sm-size);
+  font-weight: var(--type-mono-sm-weight);
+  line-height: var(--type-mono-sm-line);
+  white-space: nowrap;
+}
+
+.credential {
+  white-space: nowrap;
+}

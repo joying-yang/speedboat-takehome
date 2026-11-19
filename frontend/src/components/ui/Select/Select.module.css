@@ -1,0 +1,36 @@
+.select {
+  width: 100%;
+  padding-inline: var(--space-3);
+  border: 1px solid var(--border-default);
+  border-radius: var(--radius-control);
+  color: var(--text-primary);
+  background: var(--bg-surface);
+  cursor: pointer;
+}
+
+.select:hover {
+  border-color: var(--border-strong);
+}
+
+.select:focus-visible {
+  border-color: var(--accent-primary);
+  outline: var(--focus-ring-width) solid var(--accent-primary);
+  outline-offset: var(--focus-ring-offset);
+}
+
+.select.invalid {
+  border-color: var(--state-danger);
+}
+
+.select.invalid:focus-visible {
+  outline-color: var(--state-danger);
+}
+
+.compact {
+  height: var(--control-compact);
+}
+
+.default {
+  height: var(--control-default);
+}
+
