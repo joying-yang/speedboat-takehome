@@ -2,6 +2,7 @@ import { KeyRound, LineChart } from "lucide-react";
 import { NavLink, Outlet } from "react-router-dom";
 import { AuthenticationBoundary } from "./AuthenticationBoundary";
 import styles from "./ConsoleLayout.module.css";
+import { ThemeControl } from "./ThemeControl";
 
 export function ConsoleLayout() {
   return (
@@ -11,7 +12,10 @@ export function ConsoleLayout() {
           <span className={styles.brandMark} aria-hidden="true" />
           <span>Parasail</span>
         </a>
-        <span className={styles.environmentLabel}>Developer console</span>
+        <div className={styles.headerActions}>
+          <span className={styles.environmentLabel}>Developer console</span>
+          <ThemeControl />
+        </div>
       </header>
 
       <main className={styles.pageShell}>

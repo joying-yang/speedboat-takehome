@@ -139,6 +139,24 @@ test("keeps the key console accessible in dark mode", async ({ page }) => {
   expect(accessibility.violations).toEqual([]);
 });
 
+test("switches and remembers the preview color theme", async ({ page }) => {
+  await page.goto("/console/keys");
+  const theme = page.getByRole("combobox", { name: "Color theme" });
+
+  await theme.selectOption("dark");
+  await expect(page.locator("html")).toHaveAttribute("data-theme", "dark");
+
+  await page.reload();
+  await expect(theme).toHaveValue("dark");
+  await expect(page.locator("html")).toHaveAttribute("data-theme", "dark");
+
+  await theme.selectOption("light");
+  await expect(page.locator("html")).toHaveAttribute("data-theme", "light");
+
+  await theme.selectOption("system");
+  await expect(page.locator("html")).not.toHaveAttribute("data-theme");
+});
+
 test("shows the exact last-used time above the hovered timestamp", async ({ page }) => {
   await page.goto("/console/keys");
   const table = page.getByRole("table", { name: "API keys" });
