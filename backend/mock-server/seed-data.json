@@ -132,6 +132,13 @@
   "usage": {
     "_comment": "Daily aggregates; the /v1/usage endpoint synthesizes more granular series on demand from these.",
     "daily": [
+      {"date": "2026-04-22", "requests": 10820, "input_tokens": 4100000, "output_tokens": 1850000, "spend_usd": 3.92},
+      {"date": "2026-04-23", "requests": 11940, "input_tokens": 4550000, "output_tokens": 2020000, "spend_usd": 4.31},
+      {"date": "2026-04-24", "requests": 10110, "input_tokens": 3890000, "output_tokens": 1720000, "spend_usd": 3.68},
+      {"date": "2026-04-25", "requests":  3980, "input_tokens": 1520000, "output_tokens":  680000, "spend_usd": 1.43},
+      {"date": "2026-04-26", "requests":  3510, "input_tokens": 1340000, "output_tokens":  610000, "spend_usd": 1.27},
+      {"date": "2026-04-27", "requests": 13420, "input_tokens": 5140000, "output_tokens": 2310000, "spend_usd": 4.86},
+      {"date": "2026-04-28", "requests":  7480, "input_tokens": 2860000, "output_tokens": 1290000, "spend_usd": 2.71},
       {"date": "2026-04-29", "requests": 12480, "input_tokens": 4810000, "output_tokens": 2105000, "spend_usd": 4.81},
       {"date": "2026-04-30", "requests": 14102, "input_tokens": 5320000, "output_tokens": 2480000, "spend_usd": 5.42},
       {"date": "2026-05-01", "requests": 9980,  "input_tokens": 3950000, "output_tokens": 1820000, "spend_usd": 4.04},

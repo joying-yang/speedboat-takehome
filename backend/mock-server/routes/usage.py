@@ -158,6 +158,108 @@ async def get_usage(
     }
 
 
+def _consumer_weights(candidates: list[dict], metric: str) -> list[int]:
+    return [
+        100
+        + int(
+            hashlib.md5(
+                f"{candidate['api_key_id']}|{candidate['model']}|{metric}".encode()
+            ).hexdigest(),
+            16,
+        )
+        % 900
+        for candidate in candidates
+    ]
+
+
+def _allocate_integer(total: int, weights: list[int]) -> list[int]:
+    weight_total = sum(weights)
+    raw = [total * weight / weight_total for weight in weights]
+    values = [math.floor(value) for value in raw]
+    remainder = total - sum(values)
+    remainder_order = sorted(
+        range(len(raw)),
+        key=lambda index: raw[index] - values[index],
+        reverse=True,
+    )
+    for index in remainder_order[:remainder]:
+        values[index] += 1
+    return values
+
+
+def _allocate_decimal(total: float, weights: list[int]) -> list[float]:
+    weight_total = sum(weights)
+    values = [round(total * weight / weight_total, 4) for weight in weights]
+    values[-1] = round(values[-1] + total - sum(values), 4)
+    return values
+
+
+@router.get("/usage/consumers")
+async def get_usage_consumers(
+    start: str = Query(..., description="ISO-8601 start (inclusive)"),
+    end: str = Query(..., description="ISO-8601 end (exclusive)"),
+    granularity: Granularity = Query("day"),
+    api_key_id: str | None = Query(None, description="Filter to a single key"),
+    model: str | None = Query(None, description="Filter to a single model"),
+):
+    report = await get_usage(start, end, granularity, api_key_id, model)
+    keys = [
+        key for key in store.api_keys()
+        if api_key_id is None or key["id"] == api_key_id
+    ]
+    models = [
+        model_record for model_record in store.models()
+        if model is None or model_record["id"] == model
+    ]
+    candidates = [
+        {
+            "api_key_id": key["id"],
+            "api_key_name": key["name"],
+            "credential": f"{key['prefix']}••••{key['last_four']}",
+            "model": model_record["id"],
+        }
+        for key in keys
+        for model_record in models
+    ]
+
+    if not candidates:
+        data: list[dict] = []
+    else:
+        totals = report["totals"]
+        allocations = {
+            "requests": _allocate_integer(
+                totals["requests"], _consumer_weights(candidates, "requests")
+            ),
+            "input_tokens": _allocate_integer(
+                totals["input_tokens"], _consumer_weights(candidates, "input_tokens")
+            ),
+            "output_tokens": _allocate_integer(
+                totals["output_tokens"], _consumer_weights(candidates, "output_tokens")
+            ),
+            "spend_usd": _allocate_decimal(
+                totals["spend_usd"], _consumer_weights(candidates, "spend_usd")
+            ),
+        }
+        data = [
+            {
+                **candidate,
+                "requests": allocations["requests"][index],
+                "input_tokens": allocations["input_tokens"][index],
+                "output_tokens": allocations["output_tokens"][index],
+                "spend_usd": allocations["spend_usd"][index],
+            }
+            for index, candidate in enumerate(candidates)
+        ]
+
+    return {
+        "object": "usage_consumers",
+        "start": start,
+        "end": end,
+        "filters": {"api_key_id": api_key_id, "model": model},
+        "data": data,
+    }
+
+
 class SpendLimitRequest(BaseModel):
     scope: Literal["account", "api_key"] = Field(
         ..., description="Apply the limit account-wide or to a specific key."
